@@ -7,12 +7,24 @@ export function App() {
   return (
     <div className="h-min-h-screen flex flex-col">
       <header className="px-6 py-3 flex justify-between items-center border-b">
-        <h1 className='text-xl font-bold'>
-          upload.ai
-        </h1>
-
         <div className="flex items-center gap-3">
-          <span className='text-sm text-muted-foreground'>
+          <ModeToggle />
+
+          <Separator
+            orientation='vertical'
+            className='h-6'
+          />
+
+          <h1 className='text-xl font-bold'>
+            upload.ai
+          </h1>
+          
+        </div>
+
+        <div className="flex items-center gap-3 max-[640px]:w-1/2 relative">
+          <span
+            className="text-sm text-muted-foreground whitespace-nowrap overflow-hidden overflow-ellipsis max-[640px]:hover:overflow-visible max-[640px]:hover:absolute max-[640px]:hover:bg-background max-[640px]:hover:whitespace-break-spaces rounded px-3 py-1"
+          >
             Desenvolvido com 💟 no NLW da Rocketseat
           </span>
 
@@ -21,15 +33,18 @@ export function App() {
             className='h-6'
           />
 
-          <Button variant="outline">
+          <Button variant="outline" className='ml-auto'>
             <Github
               className='w-4 h-4 mr-2'
             />
             Github
           </Button>
-          <ModeToggle />
         </div>
       </header>
+
+      <main>
+
+      </main>
     </div>
   );
 }
