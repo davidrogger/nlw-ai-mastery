@@ -4,7 +4,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-enum Theme {
+export enum Theme {
   dark = 'dark',
   light = 'light',
   system = 'system',
@@ -44,11 +44,10 @@ export function ThemeProvider({
     root.classList.remove(Theme.dark, Theme.light);
 
     if (theme === Theme.system) {
-      const systemTheme = window.matchMedia('(prefers-colors-scheme: dark)')
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
         .matches
         ? Theme.dark
         : Theme.light;
-      
       root.classList.add(systemTheme);
       return;
     }
@@ -74,7 +73,7 @@ export function ThemeProvider({
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
 
-  if (!context) throw new Error ('useTheme must be used within a ThemeProvider');
+  if (!context === undefined) throw new Error ('useTheme must be used within a ThemeProvider');
 
   return context;
 }

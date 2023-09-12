@@ -1,7 +1,7 @@
-import { Button } from "./components/ui/button";
+import { ModeToggle } from "./components/mode-toggle";
 
 export function App() {
   return (
-    <Button>Teste</Button>
+    <ModeToggle />
   )
 }
