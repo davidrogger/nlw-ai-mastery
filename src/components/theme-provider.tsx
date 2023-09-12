@@ -24,7 +24,7 @@ type ThemeProviderState = {
 const initialState: ThemeProviderState = {
   theme: Theme.system,
   setTheme: () => null,
-}
+};
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
@@ -39,7 +39,7 @@ export function ThemeProvider({
   );
 
   useEffect(() => {
-    const root = window.document.documentElement
+    const root = window.document.documentElement;
 
     root.classList.remove(Theme.dark, Theme.light);
 
@@ -53,7 +53,7 @@ export function ThemeProvider({
     }
 
     root.classList.add(theme);
-  }, [theme])
+  }, [theme]);
 
   const value = {
     theme,
@@ -61,13 +61,13 @@ export function ThemeProvider({
       localStorage.setItem(storageKey, theme);
       setTheme(theme);
     }
-  }
+  };
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
       { children }
     </ThemeProviderContext.Provider>
-  )
+  );
 }
 
 export const useTheme = () => {
@@ -76,4 +76,4 @@ export const useTheme = () => {
   if (!context === undefined) throw new Error ('useTheme must be used within a ThemeProvider');
 
   return context;
-}
+};
