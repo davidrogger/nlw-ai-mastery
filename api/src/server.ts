@@ -1,11 +1,11 @@
 import { fastify } from 'fastify';
-import { prisma } from './lib/prisma';
+import { getAllPromptsRoute } from './routes/get-all-prompts';
 
 const app = fastify();
 
 const PORT:number = Number(process.env.PORT) || 3333;
 
-app.get('/prompts', async () => prisma.prompt.findMany());
+app.register(getAllPromptsRoute);
 
 app
   .listen({ port: PORT })
