@@ -1,8 +1,10 @@
 import { ModeToggle } from '@/components/mode-toggle';
-import { FileVideo, Github, Upload } from 'lucide-react';
+import { FileVideo, Github, Upload, Wand2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Textarea } from './components/ui/textarea';
+import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from './components/ui/select';
+import { Slider } from './components/ui/slider';
 
 export function App() {
   return (
@@ -48,7 +50,7 @@ export function App() {
           className='flex flex-col flex-1 gap-4'
         >
           <div
-            className='grid grid-rows-2 gap-4 flex-1'
+            className='grid grid-rows-2 gap-4 flex-1 max-[640px]:min-h-screen'
           >
             <Textarea
               className='resize-none p-4 leading-relaxed'
@@ -106,6 +108,88 @@ export function App() {
             </Button>
           </form>
 
+          <Separator />
+
+          <form className='space-y-6'>
+            <div
+              className='space-y-2'
+            >
+              <label>
+                Prompt
+              </label>
+
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a prompt..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="title">
+                    Youtube Title
+                  </SelectItem>
+                  <SelectItem value="description">
+                    Youtube Description
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div
+              className='space-y-2'
+            >
+              <label>
+                Model
+              </label>
+
+              <Select
+                disabled defaultValue="gpt3.5"
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gpt3.5">GPT 3.5-turbo 16k</SelectItem>
+                </SelectContent>
+              </Select>
+              <span
+                className='block text-sm text-muted-foreground italic'
+              >
+                {'Soon you\'ll be able to customize this option'}
+              </span>
+            </div>
+
+            <div
+              className='space-y-4'
+            >
+              <label>
+                Temperature
+              </label>
+
+              <Slider
+                min={0}
+                max={1}
+                step={0.1}
+                defaultValue={[0.5]}
+              />
+              <span
+                className='block text-sm text-muted-foreground italic leading-relaxed'
+              >
+                Higher values are more creative, but it can be more inaccurate
+              </span>
+            </div>
+
+            <Separator />
+
+            <Button
+              type="submit"
+              className='w-full'
+            >
+              Execute
+              <Wand2
+                className="w-4 h-4 ml-2"
+              />
+            </Button>
+
+          </form>
         </aside>
       </main>
     </div>
