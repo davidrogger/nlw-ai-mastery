@@ -21,7 +21,7 @@ export function App() {
           <h1 className='text-xl font-bold'>
             upload.ai
           </h1>
-          
+
         </div>
 
         <div className="flex items-center gap-3 max-[640px]:w-1/2 relative">
@@ -74,7 +74,7 @@ export function App() {
           <form
             className='space-y-6'
           >
-            <label 
+            <label
               htmlFor="video"
               className='border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5'
             >
@@ -83,7 +83,7 @@ export function App() {
             </label>
 
             <input type="file" id="video" accept="video/mp4" className='sr-only' />
-            
+
             <Separator />
 
             <section
@@ -103,7 +103,7 @@ export function App() {
               type='submit'
               className='w-full'
             >
-                Load Video
+              Load Video
               <Upload className='w-4 h-4 ml-2' />
             </Button>
           </form>
