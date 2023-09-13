@@ -24,3 +24,15 @@ Content-Type: application/json
 {
   "prompt": "Sample audio"
 }
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "f39e5cde-06c8-448b-9e91-53d9c83ed4b9",
+  "template": "Sobre o que o assunto se trata? ''''{transcription}'''",
+  "temperature": 0.5
+}
