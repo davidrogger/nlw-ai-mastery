@@ -1,19 +1,29 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Textarea } from './ui/textarea';
 
 import { FileVideo, Upload } from 'lucide-react';
+import { convertVideoToAudio } from '@/services/handleVideo';
 
 export function VideoInputForm() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const promptInputRef = useRef<HTMLTextAreaElement>(null);
 
-  function handlerVideoFile(event:ChangeEvent<HTMLInputElement>) {
+  function handleInputVideoFile(event:ChangeEvent<HTMLInputElement>) {
     const { files } = event.currentTarget;
 
     if (files) {
       const [video] = files;
       setVideoFile(video);
+    }
+  }
+
+  async function handleSubmitFileVideo() {
+    const prompt = promptInputRef.current?.value;
+
+    if (videoFile) {
+      const audioFile = await convertVideoToAudio(videoFile);
     }
   }
 
@@ -25,6 +35,7 @@ export function VideoInputForm() {
   return (
     <form
       className='space-y-6'
+      onSubmit={handleSubmitFileVideo}
     >
       <label
         htmlFor="video"
@@ -41,7 +52,7 @@ export function VideoInputForm() {
         }
       </label>
 
-      <input type="file" id="video" accept="video/mp4" className='sr-only' onChange={handlerVideoFile} />
+      <input type="file" id="video" accept="video/mp4" className='sr-only' onChange={handleInputVideoFile} />
 
       <Separator />
 
@@ -53,6 +64,7 @@ export function VideoInputForm() {
         </label>
         <Textarea
           id="transcription_prompt"
+          ref={promptInputRef}
           className='h-20 leading-relaxed resize-none'
           placeholder='Add keywords mentioned in the video by comma (,)'
         />
