@@ -1,14 +1,31 @@
-import { ModeToggle } from '@/components/mode-toggle';
 import { Github, Wand2 } from 'lucide-react';
+import { useCompletion } from 'ai/react';
+
+import { useState } from 'react';
+
+import { ModeToggle } from '@/components/mode-toggle';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Textarea } from './components/ui/textarea';
-import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from './components/ui/select';
-import { Slider } from './components/ui/slider';
-import { VideoInputForm } from './components/video-input-form';
-import { PromptSelect } from './components/prompt-select';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { VideoInputForm } from '@/components/video-input-form';
+import { PromptSelect } from '@/components/prompt-select';
 
 export function App() {
+  const [temperature, setTemperature] = useState<number>(0.5);
+  const [videoId, setVideoId] = useState<string | null>(null);
+
+  const { input, setInput } = useCompletion({
+    api: 'http://localhost:3333/ai/complete',
+    body: {
+      videoId,
+      temperature,
+    },
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
   return (
     <div className="h-min-h-screen flex flex-col">
       <header className="px-6 py-3 flex justify-between items-center border-b">
@@ -57,6 +74,7 @@ export function App() {
             <Textarea
               className='resize-none p-4 leading-relaxed'
               placeholder='Add IA prompt...'
+              value={input}
             />
             <Textarea
               className='resize-none p-4 leading-relaxed'
@@ -74,7 +92,7 @@ export function App() {
         </section>
         <aside className='w-80 max-[640px]:m-auto space-y-6'>
           
-          <VideoInputForm />
+          <VideoInputForm onVideoUploaded={setVideoId} />
 
           <Separator />
 
@@ -86,7 +104,7 @@ export function App() {
                 Prompt
               </label>
 
-              <PromptSelect />
+              <PromptSelect onPromptSelected={setInput} />
             </div>
 
             <div
@@ -124,7 +142,8 @@ export function App() {
                 min={0}
                 max={1}
                 step={0.1}
-                defaultValue={[0.5]}
+                defaultValue={[temperature]}
+                onValueChange={value => setTemperature(value[0])}
               />
               <span
                 className='block text-sm text-muted-foreground italic leading-relaxed'

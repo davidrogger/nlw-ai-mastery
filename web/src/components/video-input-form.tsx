@@ -22,7 +22,11 @@ const displayVideoSubmitStatusMessage = {
   3: 'Success',
 };
 
-export function VideoInputForm() {
+type VideoInputFormProps = {
+  onVideoUploaded: (id:string) => void
+}
+
+export function VideoInputForm(props:VideoInputFormProps) {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [submitVideoStatus, setSubmitVideoStatus] = useState<SubmitVideoStatus>(SubmitVideoStatus.WAITING);
   const promptInputRef = useRef<HTMLTextAreaElement>(null);
@@ -46,10 +50,9 @@ export function VideoInputForm() {
       data.append('file', audioFile);
 
       const { video: { id: videoId } } = await registerNewVideo(data);
-      console.log(videoId);
       setSubmitVideoStatus(SubmitVideoStatus.TRANSCRIBING);
-      const { transcription } = await transcriptVideoByIdWithPrompt(videoId, prompt as string);
-      console.log(transcription);
+      await transcriptVideoByIdWithPrompt(videoId, prompt as string);
+      props.onVideoUploaded(videoId);
 
       setSubmitVideoStatus(SubmitVideoStatus.SUCCESS);
     }
