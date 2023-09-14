@@ -6,6 +6,7 @@ import { Textarea } from './components/ui/textarea';
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from './components/ui/select';
 import { Slider } from './components/ui/slider';
 import { VideoInputForm } from './components/video-input-form';
+import { PromptSelect } from './components/prompt-select';
 
 export function App() {
   return (
@@ -85,19 +86,7 @@ export function App() {
                 Prompt
               </label>
 
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a prompt..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="title">
-                    YouTube Title
-                  </SelectItem>
-                  <SelectItem value="description">
-                    YouTube Description
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <PromptSelect />
             </div>
 
             <div

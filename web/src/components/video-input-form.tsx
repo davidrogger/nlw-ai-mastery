@@ -1,16 +1,31 @@
 import { ChangeEvent, FormEvent, useMemo, useState, useRef } from 'react';
+
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Textarea } from './ui/textarea';
 
 import { FileVideo, Upload } from 'lucide-react';
+
 import { convertVideoToAudio } from '@/services/handleVideo';
 import { registerNewVideo, transcriptVideoByIdWithPrompt } from '@/services/handleAPI';
 
+enum SubmitVideoStatus {
+  WAITING,
+  CONVERTING,
+  TRANSCRIBING,
+  SUCCESS,
+}
+
+const displayVideoSubmitStatusMessage = {
+  1: 'Converting...',
+  2: 'Transcribing...',
+  3: 'Success',
+};
+
 export function VideoInputForm() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [submitVideoStatus, setSubmitVideoStatus] = useState<SubmitVideoStatus>(SubmitVideoStatus.WAITING);
   const promptInputRef = useRef<HTMLTextAreaElement>(null);
-
   function handleInputVideoFile(event:ChangeEvent<HTMLInputElement>) {
     const { files } = event.currentTarget;
 
@@ -25,13 +40,18 @@ export function VideoInputForm() {
     const prompt = promptInputRef.current?.value;
 
     if (videoFile) {
+      setSubmitVideoStatus(SubmitVideoStatus.CONVERTING);
       const audioFile = await convertVideoToAudio(videoFile);
       const data = new FormData();
       data.append('file', audioFile);
-      const { video: { id: videoId } } = await registerNewVideo(data);
 
+      const { video: { id: videoId } } = await registerNewVideo(data);
+      console.log(videoId);
+      setSubmitVideoStatus(SubmitVideoStatus.TRANSCRIBING);
       const { transcription } = await transcriptVideoByIdWithPrompt(videoId, prompt as string);
       console.log(transcription);
+
+      setSubmitVideoStatus(SubmitVideoStatus.SUCCESS);
     }
   }
 
@@ -75,15 +95,24 @@ export function VideoInputForm() {
           ref={promptInputRef}
           className='h-20 leading-relaxed resize-none'
           placeholder='Add keywords mentioned in the video by comma (,)'
+          disabled={submitVideoStatus !== SubmitVideoStatus.WAITING}
         />
       </section>
 
       <Button
         type='submit'
-        className='w-full'
+        className='w-full data-[success=true]:bg-emerald-400'
+        data-success={ submitVideoStatus === SubmitVideoStatus.SUCCESS }
+        disabled={submitVideoStatus !== SubmitVideoStatus.WAITING}
       >
-              Load Video
-        <Upload className='w-4 h-4 ml-2' />
+        {submitVideoStatus === SubmitVideoStatus.WAITING
+          ? (<>
+            Load Video
+            <Upload className='w-4 h-4 ml-2' />
+          </>)
+          : displayVideoSubmitStatusMessage[submitVideoStatus]
+        }
+        
       </Button>
     </form>
   );

@@ -20,3 +20,12 @@ export async function transcriptVideoByIdWithPrompt(videoId:string, prompt:strin
     return error;
   }
 }
+
+export async function getPromptOptions() {
+  try {
+    const response = await api.get('/prompts');
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
