@@ -1,10 +1,11 @@
 import { ModeToggle } from '@/components/mode-toggle';
-import { FileVideo, Github, Upload, Wand2 } from 'lucide-react';
+import { Github, Wand2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Textarea } from './components/ui/textarea';
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from './components/ui/select';
 import { Slider } from './components/ui/slider';
+import { VideoInputForm } from './components/video-input-form';
 
 export function App() {
   return (
@@ -65,48 +66,14 @@ export function App() {
               className='text-sm text-muted-foreground'
             >
               Remember: You can use the
-              <span className='text-violet-400'>{' {transciption} '}</span>
-              variable in the prompt to add more content to the transcrition from the selected video.
+              <span className='text-violet-400'>{' {transcription} '}</span>
+              variable in the prompt to add more content to the transcription from the selected video.
             </p>
           </div>
         </section>
         <aside className='w-80 max-[640px]:m-auto space-y-6'>
-          <form
-            className='space-y-6'
-          >
-            <label
-              htmlFor="video"
-              className='border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5'
-            >
-              <FileVideo className='w-4 h-4' />
-              Select a Video
-            </label>
-
-            <input type="file" id="video" accept="video/mp4" className='sr-only' />
-
-            <Separator />
-
-            <section
-              className='space-y-2'
-            >
-              <label htmlFor="transcription_prompt">
-                Transcription Prompt
-              </label>
-              <Textarea
-                id="trabscription_prompt"
-                className='h-20 leading-relaxed resize-none'
-                placeholder='Add keywords mentioned in the video by comma (,)'
-              />
-            </section>
-
-            <Button
-              type='submit'
-              className='w-full'
-            >
-              Load Video
-              <Upload className='w-4 h-4 ml-2' />
-            </Button>
-          </form>
+          
+          <VideoInputForm />
 
           <Separator />
 
@@ -124,10 +91,10 @@ export function App() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="title">
-                    Youtube Title
+                    YouTube Title
                   </SelectItem>
                   <SelectItem value="description">
-                    Youtube Description
+                    YouTube Description
                   </SelectItem>
                 </SelectContent>
               </Select>
