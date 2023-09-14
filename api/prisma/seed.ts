@@ -9,24 +9,24 @@ async function main() {
       title: 'YouTube Title',
       template: `Your role is to generate three titles for a YouTube video.
 
-      Below, you will receive a transcription of this video; please use this transcription to create the titles.
-      
-      Additionally, you will also receive a list of titles; use this list as a reference for the titles to be generated.
-      
-      The titles should have a maximum of 60 characters.
-      
-      The titles should be eye-catching and enticing to maximize clicks.
-      
-      Please return ONLY the three titles in a list format as shown in the example below:
-      '''
-      - Title 1
-      - Title 2
-      - Title 3
-      '''
-      
-      Transcription:
-      '''
-      {transcription}
+Below, you will receive a transcription of this video; please use this transcription to create the titles.
+
+Additionally, you will also receive a list of titles; use this list as a reference for the titles to be generated.
+
+The titles should have a maximum of 60 characters.
+
+The titles should be eye-catching and enticing to maximize clicks.
+
+Please return ONLY the three titles in a list format as shown in the example below:
+'''
+- Title 1
+- Title 2
+- Title 3
+'''
+
+Transcription:
+'''
+{transcription}
 '''`.trim()
     }
   });
@@ -36,24 +36,24 @@ async function main() {
       title: 'YouTube Description',
       template: `Your role is to generate a concise description for a YouTube video.
 
-      Below, you will receive a transcription of this video; please use this transcription to create the description.
-      
-      The description should be in the first person and have a maximum of 80 words, highlighting the main points of the video.
-      
-      Use captivating words that grab the reader's attention.
-      
-      Additionally, at the end of the description, include a list of 3 to 10 lowercase hashtags containing video keywords.
-      
-      The return should follow the following format:
-      '''
-      Description.
-      
-      #hashtag1 #hashtag2 #hashtag3 ...
-      '''
-      
-      Transcription:
-      '''
-      {transcription}
+Below, you will receive a transcription of this video; please use this transcription to create the description.
+
+The description should be in the first person and have a maximum of 80 words, highlighting the main points of the video.
+
+Use captivating words that grab the reader's attention.
+
+Additionally, at the end of the description, include a list of 3 to 10 lowercase hashtags containing video keywords.
+
+The return should follow the following format:
+'''
+Description.
+
+#hashtag1 #hashtag2 #hashtag3 ...
+'''
+
+Transcription:
+'''
+{transcription}
 '''`.trim()
     }
   });
