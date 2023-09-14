@@ -1,10 +1,11 @@
-import { ChangeEvent, useMemo, useState, useRef } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Textarea } from './ui/textarea';
 
 import { FileVideo, Upload } from 'lucide-react';
 import { convertVideoToAudio } from '@/services/handleVideo';
+import { registerNewVideo, transcriptVideoByIdWithPrompt } from '@/services/handleAPI';
 
 export function VideoInputForm() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -19,11 +20,18 @@ export function VideoInputForm() {
     }
   }
 
-  async function handleSubmitFileVideo() {
+  async function handleSubmitFileVideo(event:FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     const prompt = promptInputRef.current?.value;
 
     if (videoFile) {
       const audioFile = await convertVideoToAudio(videoFile);
+      const data = new FormData();
+      data.append('file', audioFile);
+      const { video: { id: videoId } } = await registerNewVideo(data);
+
+      const { transcription } = await transcriptVideoByIdWithPrompt(videoId, prompt as string);
+      console.log(transcription);
     }
   }
 
