@@ -16,7 +16,14 @@ export function App() {
   const [temperature, setTemperature] = useState<number>(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
 
-  const { input, setInput } = useCompletion({
+  const {
+    input,
+    handleInputChange,
+    setInput,
+    handleSubmit: handleExecuteSubmit,
+    completion,
+    isLoading,
+  } = useCompletion({
     api: 'http://localhost:3333/ai/complete',
     body: {
       videoId,
@@ -75,10 +82,12 @@ export function App() {
               className='resize-none p-4 leading-relaxed'
               placeholder='Add IA prompt...'
               value={input}
+              onChange={handleInputChange}
             />
             <Textarea
               className='resize-none p-4 leading-relaxed'
               placeholder='ChatGPT answer...'
+              value={completion}
               readOnly
             />
             <p
@@ -91,12 +100,15 @@ export function App() {
           </div>
         </section>
         <aside className='w-80 max-[640px]:m-auto space-y-6'>
-          
+
           <VideoInputForm onVideoUploaded={setVideoId} />
 
           <Separator />
 
-          <form className='space-y-6'>
+          <form
+            className='space-y-6'
+            onSubmit={handleExecuteSubmit}
+          >
             <div
               className='space-y-2'
             >
@@ -157,6 +169,7 @@ export function App() {
             <Button
               type="submit"
               className='w-full'
+              disabled={isLoading}
             >
               Execute
               <Wand2

@@ -27,7 +27,6 @@ export function PromptSelect(props:PromptSelectProps) {
     async function loadPrompts() {
       const loadedPrompts = await getPromptOptions();
       setPrompts(loadedPrompts);
-      console.log(loadedPrompts);
     }
     loadPrompts();
   }, []);
