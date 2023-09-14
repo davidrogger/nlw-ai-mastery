@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import { StatusCode } from './status';
 import { openai } from '../lib/openai';
+import { OpenAIStream, streamToResponse } from 'ai';
 
 export async function generateCompletionRoute(app: FastifyInstance) {
   app.post('/ai/complete', async (request, reply) => {
@@ -33,9 +34,17 @@ export async function generateCompletionRoute(app: FastifyInstance) {
       temperature,
       messages: [
         { role: 'user', content: promptMessage }
-      ]
+      ],
+      stream: true,
     });
 
-    return response;
+    const stream = OpenAIStream(response);
+
+    streamToResponse(stream, reply.raw, {
+      headers: {
+        'Access-Control-Allow-Origin': process.env.PATH_URL || '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      }
+    });
   });
 }
